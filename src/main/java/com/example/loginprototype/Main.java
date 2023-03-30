@@ -82,6 +82,13 @@ public class Main extends Application {
         hbSignUpButton.getChildren().add(signupButton);
         grid.add(hbSignUpButton, 1, 4);
 
+        //Clear button to delete the SQL entries in the database
+        Button clearButton = new Button("Clear");
+        HBox hbclearButton = new HBox(10);
+        hbclearButton.setAlignment(Pos.CENTER_LEFT);
+        hbclearButton.getChildren().add(clearButton);
+        grid.add(hbclearButton, 1, 5);
+
         // Create the message label for displaying login status
         final Text message = new Text();
         grid.add(message, 1, 6);
@@ -164,6 +171,30 @@ public class Main extends Application {
                     e.printStackTrace();
                     message.setFill(javafx.scene.paint.Color.RED);
                     message.setText("Invalid username or password.");
+                }
+            }
+        });
+
+        clearButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/databaseconnect", "root", "2002_Deeduvanu");
+
+                    // Insert the data into the table
+                    String query = "DELETE FROM UserData";
+                    PreparedStatement statement = connection.prepareStatement(query);
+                    statement.executeUpdate();
+                    message.setFill(javafx.scene.paint.Color.GREEN);
+                    message.setText("Clear Successful!");
+
+                    // Close the statement and connection
+                    statement.close();
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    message.setFill(javafx.scene.paint.Color.RED);
+                    message.setText("Clear Unsuccessful");
                 }
             }
         });
