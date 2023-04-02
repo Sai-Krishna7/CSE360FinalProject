@@ -20,26 +20,19 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-
-import java.io.IOException;
 import java.sql.*;
 
+
+/*
+Class: CSE 360 - Group M08
+Author: Sai Krishna Deeduvanu
+Risk Reduction Prototype: Sign Up / Log In to Effort Logger Console Prototype with a MySQL backend database
+Info: In order to fully run this prototype and test out SQL injection please install MySQL and MySQL workbench and
+create and replace user local host user and password details below to access the database.
+ */
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
-//		try {
-//			BorderPane root = new BorderPane();
-//			Scene scene = new Scene(root,400,400);
-//			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-//			primaryStage.setScene(scene);
-//			primaryStage.show();
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//		}
         primaryStage.setTitle("Login");
         primaryStage.centerOnScreen();
 
@@ -69,7 +62,7 @@ public class Main extends Application {
         grid.add(passwordField, 1, 2);
 
         // Create the Log In button
-        Button loginButton = new Button("Log In");
+        Button loginButton = new Button("Log In to Effort Console");
         HBox hbloginButton = new HBox(10);
         hbloginButton.setAlignment(Pos.BOTTOM_LEFT);
         hbloginButton.getChildren().add(loginButton);
@@ -85,28 +78,13 @@ public class Main extends Application {
         //Clear button to delete the SQL entries in the database
         Button clearButton = new Button("Clear");
         HBox hbclearButton = new HBox(10);
-        hbclearButton.setAlignment(Pos.CENTER_LEFT);
+        hbclearButton.setAlignment(Pos.BOTTOM_LEFT);
         hbclearButton.getChildren().add(clearButton);
-        grid.add(hbclearButton, 1, 5);
+        grid.add(hbclearButton, 0, 5);
 
         // Create the message label for displaying login status
         final Text message = new Text();
         grid.add(message, 1, 6);
-
-        // Set the action for the login button
-//        loginButton.setOnAction(event -> {
-//            String username = usernameField.getText();
-//            String password = passwordField.getText();
-//
-//            // Check if the username and password are correct
-//            if (username.equals("admin") && password.equals("password")) {
-//                message.setFill(javafx.scene.paint.Color.GREEN);
-//                message.setText("Login successful!");
-//            } else {
-//                message.setFill(javafx.scene.paint.Color.RED);
-//                message.setText("Invalid username or password.");
-//            }
-//        });
 
         loginButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -114,6 +92,7 @@ public class Main extends Application {
                 String username = usernameField.getText();
                 String password = passwordField.getText();
                 try {
+                    //Connect to database and pass queries to authenticate users.
                     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/databaseconnect", "root", "2002_Deeduvanu");
                     String query = "SELECT UserPassword FROM UserData WHERE UserName = ?";
                     PreparedStatement statement = connection.prepareStatement(query);
@@ -125,7 +104,7 @@ public class Main extends Application {
                         if (passwordFromDatabase.equals(enteredPassword)) {
                             System.out.println("Login successful");
                             message.setFill(javafx.scene.paint.Color.GREEN);
-                            message.setText("Login successful!");
+                            message.setText("Authenticated! Continue to Effort Logger Console.");
                         } else {
                             //System.out.println("Login unsuccessful");
                             message.setFill(javafx.scene.paint.Color.RED);
@@ -134,7 +113,7 @@ public class Main extends Application {
                     } else {
                         //System.out.println("Username not found");
                         message.setFill(javafx.scene.paint.Color.RED);
-                        message.setText("Username not found");
+                        message.setText("User Not Found");
                     }
                     resultSet.close();
                     statement.close();
@@ -151,22 +130,43 @@ public class Main extends Application {
                 String username = usernameField.getText();
                 String password = passwordField.getText();
 
-                // Connect to the database
+                // Connect to the database and authenticate existing users or create new users and insert to database
                 try {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/databaseconnect", "root", "2002_Deeduvanu");
 
-                    // Insert the data into the table
-                    String query = "INSERT INTO UserData (UserName, UserPassword) VALUES (?, ?)";
-                    PreparedStatement statement = connection.prepareStatement(query);
+                    String query1 = "SELECT UserPassword FROM UserData WHERE UserName = ?";
+                    PreparedStatement statement = connection.prepareStatement(query1);
                     statement.setString(1, username);
-                    statement.setString(2, password);
-                    statement.executeUpdate();
-                    message.setFill(javafx.scene.paint.Color.GREEN);
-                    message.setText("Sign Up successful!");
+                    ResultSet resultSet = statement.executeQuery();
+                    if (resultSet.next()) {
+                        String passwordFromDatabase = resultSet.getString("UserPassword");
+                        String enteredPassword = password;
+                        if (passwordFromDatabase.equals(enteredPassword)) {
+                            //System.out.println("User already exx successful");
+                            message.setFill(javafx.scene.paint.Color.RED);
+                            message.setText("User already exists");
+                        } else {
+                            //System.out.println("Login unsuccessful");
+                            message.setFill(javafx.scene.paint.Color.RED);
+                            message.setText("Username is not unique.");
+                        }
+                    } else {
+                        String query = "INSERT INTO UserData (UserName, UserPassword) VALUES (?, ?)";
+                        PreparedStatement statement1 = connection.prepareStatement(query);
+                        statement1.setString(1, username);
+                        statement1.setString(2, password);
+                        statement1.executeUpdate();
+                        message.setFill(javafx.scene.paint.Color.GREEN);
+                        message.setText("Sign Up successful!");
 
-                    // Close the statement and connection
+                        // Close the statement and connection
+                        statement1.close();
+                    }
                     statement.close();
                     connection.close();
+
+                    // Insert the data into the table
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                     message.setFill(javafx.scene.paint.Color.RED);
@@ -178,6 +178,7 @@ public class Main extends Application {
         clearButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                //Clear all entries in database, simple functionality to make it easy to clear database.
                 try {
                     Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/databaseconnect", "root", "2002_Deeduvanu");
 
