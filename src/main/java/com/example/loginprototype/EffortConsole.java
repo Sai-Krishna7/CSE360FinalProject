@@ -64,7 +64,18 @@ public class EffortConsole extends Application {
         root.setPadding(new Insets(10.0D));
         Button effortLogEditorButton = new Button("Effort Log Editor");
         Button defectLogConsoleButton = new Button("Defect Log Console");
+
+        //Connecting Effort Console Page with Definitions Page
         Button definitionsButton = new Button("Definitions");
+        definitionsButton.setOnAction(event -> {
+            DefinitionsPage definitionsPage = new DefinitionsPage();
+            try {
+                definitionsPage.start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         Button effortAndDefectLogsButton = new Button("Effort and Defect Logs");
         HBox bottomBox = new HBox(new Node[]{effortLogEditorButton, defectLogConsoleButton, definitionsButton, effortAndDefectLogsButton});
         bottomBox.setSpacing(10.0D);
@@ -74,6 +85,7 @@ public class EffortConsole extends Application {
         Scene scene = new Scene(borderPane);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Effort Console");
+        primaryStage.centerOnScreen();
         primaryStage.show();
     }
 

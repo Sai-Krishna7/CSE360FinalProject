@@ -124,27 +124,33 @@ public class Main extends Application {
 //                            catch (IOException e) {
 //                                e.printStackTrace();
 //                            }
+                            //Transition to Effort Console Page
+                            //                                FXMLLoader fxmlLoader = new FXMLLoader();
+//                                fxmlLoader.setLocation(getClass().getResource("Scene1.fxml"));
+//                                /*
+//                                 * if "fx:controller" is not set in fxml
+//                                 * fxmlLoader.setController(NewWindowController);
+//                                 */
+//                                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+//                                Stage stage = new Stage();
+//                                stage.setTitle("Scene1");
+//                                stage.setScene(scene);
+//                                stage.centerOnScreen();
+//                                stage.hide();
 
-                            try {
-                                FXMLLoader fxmlLoader = new FXMLLoader();
-                                fxmlLoader.setLocation(getClass().getResource("Scene1.fxml"));
-                                /*
-                                 * if "fx:controller" is not set in fxml
-                                 * fxmlLoader.setController(NewWindowController);
-                                 */
-                                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-                                Stage stage = new Stage();
-                                stage.setTitle("Scene1");
-                                stage.setScene(scene);
-                                stage.centerOnScreen();
-                                stage.hide();
-                                // Hide this current window (if this is what you want)
-                                ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
-                            } catch (IOException e) {
-                                Logger logger = Logger.getLogger(getClass().getName());
-                                logger.log(Level.SEVERE, "Failed to create new Window.", e);
-                            }
-                            
+                            loginButton.setOnAction(event -> {
+                                EffortConsole effortConsole = new EffortConsole();
+                                try {
+                                    effortConsole.start(primaryStage);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            });
+
+
+                            // Hide this current window (if this is what you want)
+                            //((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+
                         } else {
                             //System.out.println("Login unsuccessful");
                             message.setFill(javafx.scene.paint.Color.RED);
@@ -243,6 +249,7 @@ public class Main extends Application {
         // Create the scene and set it on the stage
         Scene scene = new Scene(grid, 300, 275);
         primaryStage.setScene(scene);
+        primaryStage.sizeToScene();
 
         primaryStage.show();
     }
