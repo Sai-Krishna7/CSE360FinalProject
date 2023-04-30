@@ -4,23 +4,28 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+
+import java.io.IOException;
 import java.sql.*;
+import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /*
@@ -105,6 +110,41 @@ public class Main extends Application {
                             System.out.println("Login successful");
                             message.setFill(javafx.scene.paint.Color.GREEN);
                             message.setText("Authenticated! Continue to Effort Logger Console.");
+
+//                            Parent root;
+//                            try {
+//                                root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource("Scene1.fxml")));
+//                                Stage stage = new Stage();
+//                                stage.setTitle("My New Stage Title");
+//                                stage.setScene(new Scene(root, 450, 450));
+//                                stage.show();
+//                                // Hide this current window (if this is what you want)
+//                                ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+//                            }
+//                            catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+
+                            try {
+                                FXMLLoader fxmlLoader = new FXMLLoader();
+                                fxmlLoader.setLocation(getClass().getResource("Scene1.fxml"));
+                                /*
+                                 * if "fx:controller" is not set in fxml
+                                 * fxmlLoader.setController(NewWindowController);
+                                 */
+                                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                                Stage stage = new Stage();
+                                stage.setTitle("Scene1");
+                                stage.setScene(scene);
+                                stage.centerOnScreen();
+                                stage.hide();
+                                // Hide this current window (if this is what you want)
+                                ((Node)(actionEvent.getSource())).getScene().getWindow().hide();
+                            } catch (IOException e) {
+                                Logger logger = Logger.getLogger(getClass().getName());
+                                logger.log(Level.SEVERE, "Failed to create new Window.", e);
+                            }
+                            
                         } else {
                             //System.out.println("Login unsuccessful");
                             message.setFill(javafx.scene.paint.Color.RED);
@@ -211,3 +251,121 @@ public class Main extends Application {
         launch(args);
     }
 }
+
+
+
+
+//
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+
+
+
+//
+//
+//import java.time.Duration;
+//import java.time.LocalDateTime;
+//import javafx.application.Application;
+//import javafx.collections.FXCollections;
+//import javafx.geometry.Insets;
+//import javafx.scene.Node;
+//import javafx.scene.Scene;
+//import javafx.scene.control.Button;
+//import javafx.scene.control.ComboBox;
+//import javafx.scene.control.Label;
+//import javafx.scene.layout.BorderPane;
+//import javafx.scene.layout.HBox;
+//import javafx.scene.layout.VBox;
+//import javafx.stage.Stage;
+//
+//public class Main extends Application {
+//    private Label clockStatusLabel;
+//    private Label clockDurationLabel;
+//    private LocalDateTime startTime;
+//    private LocalDateTime stopTime;
+//    private boolean isClockRunning;
+//    private ComboBox<String> projectComboBox;
+//    private ComboBox<String> lifeCycleComboBox;
+//    private ComboBox<String> effortCategoryComboBox;
+//    private ComboBox<String> subordinateComboBox;
+//    private Button startButton;
+//    private Button stopButton;
+//
+//    public void start(Stage primaryStage) throws Exception {
+//        this.clockStatusLabel = new Label("Clock is stopped");
+//        this.clockDurationLabel = new Label();
+//        this.projectComboBox = new ComboBox(FXCollections.observableArrayList(new String[]{"Project 1", "Project 2", "Project 3"}));
+//        this.lifeCycleComboBox = new ComboBox(FXCollections.observableArrayList(new String[]{"Design", "Development", "Testing"}));
+//        this.effortCategoryComboBox = new ComboBox(FXCollections.observableArrayList(new String[]{"Coding", "Testing", "Documentation"}));
+//        this.subordinateComboBox = new ComboBox();
+//        this.startButton = new Button("Start An Activity");
+//        this.stopButton = new Button("Stop this Activity");
+//        this.stopButton.setDisable(true);
+//        this.startButton.setOnAction((event) -> {
+//            if (this.isSelectionValid()) {
+//                this.startClock();
+//                this.startButton.setDisable(true);
+//                this.stopButton.setDisable(false);
+//            } else {
+//                this.clockStatusLabel.setText("Please select project, life cycle, and effort category.");
+//            }
+//
+//        });
+//        this.stopButton.setOnAction((event) -> {
+//            this.stopClock();
+//            this.startButton.setDisable(false);
+//            this.stopButton.setDisable(true);
+//        });
+//        this.effortCategoryComboBox.setOnAction((event) -> {
+//            String var2 = (String)this.effortCategoryComboBox.getValue();
+//        });
+//        Label headerLabel = new Label("Effort Console");
+//        headerLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+//        VBox root = new VBox(new Node[]{headerLabel, new HBox(new Node[]{this.clockStatusLabel, this.clockDurationLabel}), new HBox(new Node[]{new Label("Project: "), this.projectComboBox}), new HBox(new Node[]{new Label("Life Cycle: "), this.lifeCycleComboBox}), new HBox(new Node[]{new Label("Effort Category: "), this.effortCategoryComboBox}), new HBox(new Node[]{new Label("Subordinate: "), this.subordinateComboBox}), new HBox(new Node[]{this.startButton, this.stopButton})});
+//        root.setSpacing(10.0D);
+//        root.setPadding(new Insets(10.0D));
+//        Button effortLogEditorButton = new Button("Effort Log Editor");
+//        Button defectLogConsoleButton = new Button("Defect Log Console");
+//        Button definitionsButton = new Button("Definitions");
+//        Button effortAndDefectLogsButton = new Button("Effort and Defect Logs");
+//        HBox bottomBox = new HBox(new Node[]{effortLogEditorButton, defectLogConsoleButton, definitionsButton, effortAndDefectLogsButton});
+//        bottomBox.setSpacing(10.0D);
+//        bottomBox.setPadding(new Insets(10.0D));
+//        BorderPane borderPane = new BorderPane(root);
+//        borderPane.setBottom(bottomBox);
+//        Scene scene = new Scene(borderPane);
+//        primaryStage.setScene(scene);
+//        primaryStage.setTitle("Effort Console");
+//        primaryStage.show();
+//    }
+//
+//    private boolean isSelectionValid() {
+//        String selectedProject = (String)this.projectComboBox.getValue();
+//        String selectedLifeCycle = (String)this.lifeCycleComboBox.getValue();
+//        String selectedEffortCategory = (String)this.effortCategoryComboBox.getValue();
+//        return selectedProject != null && !selectedProject.isEmpty() && selectedLifeCycle != null && !selectedLifeCycle.isEmpty() && selectedEffortCategory != null && !selectedEffortCategory.isEmpty();
+//    }
+//
+//    private void startClock() {
+//        this.clockStatusLabel.setText("Clock is running");
+//        this.startTime = LocalDateTime.now();
+//        this.isClockRunning = true;
+//    }
+//
+//    private void stopClock() {
+//        this.clockStatusLabel.setText("Clock is stopped\t");
+//        this.stopTime = LocalDateTime.now();
+//        this.isClockRunning = false;
+//        Duration duration = Duration.between(this.startTime, this.stopTime);
+//        long minutes = duration.toMinutes();
+//        double seconds = (double)(duration.getSeconds() % 60L) / 60.0D;
+//        String durationString = String.format("%.2f", (double)minutes + seconds);
+//        this.clockDurationLabel.setText("Duration: " + durationString + " minutes");
+//    }
+//
+//    public static void main(String[] args) {
+//        launch(args);
+//    }
+//}
+
