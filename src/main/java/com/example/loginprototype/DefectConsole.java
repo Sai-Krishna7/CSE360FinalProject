@@ -41,8 +41,7 @@ public class DefectConsole extends Application {
 
         // Project Selection Label and ComboBox
         Label projectSelectionLabel = new Label("1. Select The Project");
-        ComboBox<String> projectSelectionComboBox = new ComboBox<>();
-        projectSelectionComboBox.setItems(FXCollections.observableArrayList("Project 1", "Project 2", "Project 3"));
+        ComboBox<String> projectSelectionComboBox = new ComboBox<>(FXCollections.observableArrayList(new String[]{"Business Project", "Development Project"}));
 
         VBox projectSelectionContainer = new VBox(projectSelectionLabel, projectSelectionComboBox);
         projectSelectionContainer.setAlignment(Pos.TOP_LEFT);

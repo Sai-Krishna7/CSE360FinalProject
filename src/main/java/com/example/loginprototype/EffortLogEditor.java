@@ -90,7 +90,7 @@ public class EffortLogEditor extends Application {
         // Add the rows with labels and combo boxes
         //First Row
         Label label1 = new Label("Project Number");
-        ComboBox<String> comboBox1 = new ComboBox<>();
+        ComboBox<String> comboBox1 = new ComboBox<>(FXCollections.observableArrayList(new String[]{"Project 1", "Project 2", "Project 3"}));
         comboBox1.setPrefWidth(200);
         GridPane.setConstraints(label1, 0, 1);
         GridPane.setConstraints(comboBox1, 1, 1);
@@ -101,7 +101,7 @@ public class EffortLogEditor extends Application {
 
         // Second text field and label
         Label label2 = new Label("Project Type");
-        ComboBox<String> comboBox2 = new ComboBox<>();
+        ComboBox<String> comboBox2 = new ComboBox<>(FXCollections.observableArrayList(new String[]{"Business Project", "Development Project"}));
         comboBox2.setPrefWidth(100);
         GridPane.setConstraints(label2, 3, 1);
         GridPane.setConstraints(comboBox2, 4, 1);
@@ -109,7 +109,7 @@ public class EffortLogEditor extends Application {
 
         //Second Row
         Label label3 = new Label("Select Effort Log Entry to Edit");
-        ComboBox<String> comboBox3 = new ComboBox<>();
+        ComboBox<String> comboBox3 = new ComboBox<>(FXCollections.observableArrayList(new String[]{"Entry 1", "Entry 2", "Entry 3"}));
         comboBox3.setPrefWidth(300);
         GridPane.setConstraints(label3, 0, 2);
         GridPane.setConstraints(comboBox3, 1, 2, 2, 1);
@@ -126,7 +126,7 @@ public class EffortLogEditor extends Application {
         gridPane.add(new Label(), 2, 3);
 
         Label label5 = new Label("Life Cycle Step");
-        ComboBox<String> comboBox4 = new ComboBox<>();
+        ComboBox<String> comboBox4 = new ComboBox<>(FXCollections.observableArrayList(new String[]{"Planning", "Information Gathering", "Information Understanding", "Verifying", "Outlining", "Drafting", "Finalizing"}));
         comboBox4.setPrefWidth(100);
         GridPane.setConstraints(label5, 3, 3);
         GridPane.setConstraints(comboBox4, 4, 3);
@@ -143,7 +143,7 @@ public class EffortLogEditor extends Application {
         gridPane.add(new Label(), 2, 4);
 
         Label label7 = new Label("Effort Category");
-        ComboBox<String> comboBox5 = new ComboBox<>();
+        ComboBox<String> comboBox5 = new ComboBox<>(FXCollections.observableArrayList(new String[]{"Plans", "Deliverables", "Interruptions", "Defects", "Others"}));
         comboBox5.setPrefWidth(100);
         GridPane.setConstraints(label7, 3, 4);
         GridPane.setConstraints(comboBox5, 4, 4);
@@ -160,7 +160,7 @@ public class EffortLogEditor extends Application {
         gridPane.add(new Label(), 2, 5);
 
         Label label9 = new Label("Deliverable Type");
-        ComboBox<String> comboBox6 = new ComboBox<>();
+        ComboBox<String> comboBox6 = new ComboBox<>(FXCollections.observableArrayList(new String[]{"Type 1", "Type 2"}));
         comboBox6.setPrefWidth(100);
         GridPane.setConstraints(label9, 3, 5);
         GridPane.setConstraints(comboBox6, 4, 5);

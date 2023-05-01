@@ -35,7 +35,7 @@ public class EffortConsole extends Application {
         this.projectComboBox = new ComboBox(FXCollections.observableArrayList(new String[]{"Project 1", "Project 2", "Project 3"}));
         this.lifeCycleComboBox = new ComboBox(FXCollections.observableArrayList(new String[]{"Design", "Development", "Testing"}));
         this.effortCategoryComboBox = new ComboBox(FXCollections.observableArrayList(new String[]{"Coding", "Testing", "Documentation"}));
-        this.subordinateComboBox = new ComboBox();
+        this.subordinateComboBox = new ComboBox(FXCollections.observableArrayList(new String[]{"Subordinate 1", "Subordinate 2"}));
         this.startButton = new Button("Start An Activity");
         this.stopButton = new Button("Stop this Activity");
         this.stopButton.setDisable(true);
@@ -94,6 +94,14 @@ public class EffortConsole extends Application {
         });
 
         Button effortAndDefectLogsButton = new Button("Effort and Defect Logs");
+        effortAndDefectLogsButton.setOnAction(event -> {
+            EffortAndDefectLogs effortAndDefectLogs = new EffortAndDefectLogs();
+            try {
+                effortAndDefectLogs.start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         HBox bottomBox = new HBox(new Node[]{effortLogEditorButton, defectLogConsoleButton, definitionsButton, effortAndDefectLogsButton});
         bottomBox.setSpacing(10.0D);
         bottomBox.setPadding(new Insets(10.0D));
