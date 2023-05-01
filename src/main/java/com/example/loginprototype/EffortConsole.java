@@ -63,7 +63,24 @@ public class EffortConsole extends Application {
         root.setSpacing(10.0D);
         root.setPadding(new Insets(10.0D));
         Button effortLogEditorButton = new Button("Effort Log Editor");
+        effortLogEditorButton.setOnAction(event -> {
+            EffortLogEditor effortLogEditor = new EffortLogEditor();
+            try {
+                effortLogEditor.start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         Button defectLogConsoleButton = new Button("Defect Log Console");
+        defectLogConsoleButton.setOnAction(event -> {
+            DefectConsole defectConsole = new DefectConsole();
+            try {
+                defectConsole.start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         //Connecting Effort Console Page with Definitions Page
         Button definitionsButton = new Button("Definitions");

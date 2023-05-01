@@ -142,7 +142,24 @@ public class DefinitionsPage extends Application {
             }
         });
         Button proceedToDefectLogConsoleBtn = new Button("Proceed to Defect Log Console");
+        proceedToDefectLogConsoleBtn.setOnAction(event -> {
+            DefectConsole defectConsole = new DefectConsole();
+            try {
+                defectConsole.start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
         Button proceedToEffortLogEditorBtn = new Button("Proceed to Effort Log Editor");
+        proceedToEffortLogEditorBtn.setOnAction(event -> {
+            EffortLogEditor effortLogEditor = new EffortLogEditor();
+            try {
+                effortLogEditor.start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
         Button proceedToEffortAndDefectLogsBtn = new Button("Proceed to Effort and Defect Logs");
 
         // Set row number and column span
